@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detalle del Animal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="./data/animals.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get("id");
+      const animalContainer = document.getElementById("animal-container");
+      const loader = document.getElementById("loader");
+      const notFound = document.getElementById("not-found");
+
+      const calculateAge = (birthdate) => {
+        const birthDateObj = new Date(birthdate);
+        const currentDate = new Date();
+
+        let years = currentDate.getFullYear() - birthDateObj.getFullYear();
+        let months = currentDate.getMonth() - birthDateObj.getMonth();
+
+        if (months < 0) {
+          years -= 1;
+          months += 12;
+        }
+
+        return `${years > 0 ? `${years} año${years !== 1 ? "s" : ""} y ` : ""}${months} mes${months !== 1 ? "es" : ""}`;
+      };
+
+      const loadAnimalDetails = () => {
+        const animal = animals.find((animal) => animal.id === id);
+
+        loader.classList.add("hidden");
+
+        if (!animal) {
+          notFound.classList.remove("hidden");
+          return;
+        }
+
+        animalContainer.innerHTML = `
+          <div class="flex items-center space-x-2 text-gray-600 hover:text-gray-800 cursor-pointer">
+            <a href="animal-list.html" class="flex items-center h-full space-x-3 text-gray-700 hover:text-gray-900 cursor-pointer text-lg">
+              <img src="assets/left_arrow.png" alt="Ir a la página anterior" class="h-full w-auto max-h-8 flex-shrink-0" />
+              <span class="text-[#72544B] h-full flex items-center">Volver a la lista</span>
+            </a>
+          </div>
+          <div class="flex flex-col md:flex-row items-center md:items-start gap-12 bg-white shadow-lg p-6 rounded-lg">
+            <picture>
+              <source srcset="assets/animals/${animal.id}_mobile.png" media="(max-width: 768px)">
+              <source srcset="assets/animals/${animal.id}_desktop.png" media="(min-width: 769px)">
+              <img src="assets/animals/${animal.id}.png" alt="${animal.name}" class="w-40 h-40 md:w-60 md:h-60 shadow-lg" />
+            </picture>            
+            <div class="flex-1">
+              <h2 class="text-3xl font-bold">${animal.name}</h2>
+              <div class="mt-4 text-gray-700">
+                <div class="flex items-center gap-2">
+                  <img src="assets/race_icon.png" alt="raza" class="h-full w-auto max-h-6 flex-shrink-0" />
+                  <span>${animal.race}</span>
+                </div>
+                <div class="flex items-center gap-2 my-4">
+                  <img src="assets/calendar.png" alt="Calendario" class="h-full w-auto max-h-6 flex-shrink-0" />
+                  <span>${calculateAge(animal.birthdayDate)}</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <img src="assets/location_icon.png" alt="Ubicacion" class="h-full w-auto max-h-6 flex-shrink-0" />
+                  <span>${animal.shelter}</span>
+                </div>
+              </div>
+              <p class="mt-4 text-gray-600">${animal.description}</p>
+              <div class="mt-4 flex flex-col md:flex-row gap-6">
+                <div>
+                  <h3 class="font-semibold mb-4">Le gusta:</h3>
+                  <ul class="list-none text-gray-600">
+                    ${Object.values(animal.like).map((item) => `
+                      <li class="flex items-center my-3 space-x-2">
+                        <img src="assets/like_icon.png" alt="Icono" class="h-6 w-auto flex-shrink-0" />
+                        <span>${item}</span>
+                      </li>
+                    `).join("")}
+                  </ul>
+                </div>
+                <div >
+                  <h3 class="font-semibold mt-1">No le gusta:</h3>
+                  <ul class="list-none text-gray-600">
+                    ${Object.values(animal.notLike).map((item) => `
+                      <li class="flex items-center my-3 space-x-2">
+                        <img src="assets/dislike_icon.png" alt="Icono" class="h-6 w-auto flex-shrink-0" />
+                        <span>${item}</span>
+                      </li>
+                    `).join("")}
+                  </ul>
+                </div>
+              </div>
+              <a href="contact.html" class="mt-6 bg-[#8D6E63] text-white px-6 py-3 rounded-lg shadow-md hover:bg-[#6D4C41] transition w-full md:w-auto text-center block md:inline-block">
+                ¡Ponte en contacto con nosotros para adoptar a ${animal.name}!
+              </a>
+            </div>
+          </div>
+        `;
+      };
+
+      loadAnimalDetails();
+    });
+  </script>
+</head>
+<body class="h-screen flex flex-col">
+  <!-- Menú -->
+  <nav class="bg-[#865E53] text-white p-4 flex justify-between items-center fixed bottom-0 w-full sm:static sm:flex sm:justify-between">
+    <div class="flex items-center space-x-4">
+      <a href="index.html">
+        <img src="assets/logo_white_no_background.png" alt="Logo" class="h-8 lg:h-12" />
+      </a>
+      <h1 class="text-lg font-bold hidden md:block">VIDA CON PATITAS</h1>
+    </div>
+    <ul class="flex justify-around w-full sm:w-auto sm:space-x-12">
+      <li>
+        <a href="animal-list.html" class="text-lg flex items-center">
+          <span class="material-symbols-outlined mr-2">pets</span>
+          Animales
+        </a>
+      </li>
+      <li>
+        <a href="login.html" class="text-lg flex items-center">
+          <span class="material-symbols-outlined mr-2">person</span>
+          Iniciar sesión
+        </a>
+      </li>
+      <li>
+        <a href="contact.html" class="text-lg flex items-center">
+          <span class="material-symbols-outlined mr-2">speaker_notes</span>
+          Contacto
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Cargando -->
+  <div id="loader" class="flex h-screen flex-col items-center justify-center bg-[#DFC3BB] p-4 rounded">
+    <div class="w-8 h-8 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+    <p class="mt-2 text-[#865E53] text-lg font-bold animate-pulse">
+      Cargando<span class="inline-block animate-bounce">.</span>
+      <span class="inline-block animate-bounce delay-150">.</span>
+      <span class="inline-block animate-bounce delay-300">.</span>
+    </p>
+  </div>
+
+  <!-- Contenido -->
+  <div id="not-found" class="hidden bg-white text-black p-4 flex-grow flex flex-col">
+    <p>No se encontró el animal con el ID especificado.</p>
+  </div>
+  <div id="animal-container" class="bg-white text-black p-4 flex-grow flex flex-col pb-14 sm:pb-0"></div>
+</body>
+</html>
