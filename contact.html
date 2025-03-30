@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contacto - Vida con Patitas</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const form = document.getElementById("contact-form");
+      const mensajeEnviado = document.getElementById("mensaje-enviado");
+  
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+  
+        // Limpiar mensajes de error previos
+        document.querySelectorAll(".error-message").forEach((el) => el.textContent = "");
+  
+        // Obtener valores de los campos
+        const nombre = document.getElementById("nombre").value.trim();
+        const correo = document.getElementById("correo").value.trim();
+        const asunto = document.getElementById("asunto").value.trim();
+        const mensaje = document.getElementById("mensaje").value.trim();
+  
+        let isValid = true;
+  
+        // Validar campo "Nombre"
+        if (!nombre) {
+          document.getElementById("error-nombre").textContent = "El nombre es obligatorio.";
+          isValid = false;
+        }
+  
+        // Validar campo "Correo"
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!correo) {
+          document.getElementById("error-correo").textContent = "El correo es obligatorio.";
+          isValid = false;
+        } else if (!emailRegex.test(correo)) {
+          document.getElementById("error-correo").textContent = "El correo no es válido.";
+          isValid = false;
+        }
+  
+        // Validar campo "Asunto"
+        if (!asunto) {
+          document.getElementById("error-asunto").textContent = "El asunto es obligatorio.";
+          isValid = false;
+        }
+  
+        // Validar campo "Mensaje"
+        if (!mensaje) {
+          document.getElementById("error-mensaje").textContent = "El mensaje es obligatorio.";
+          isValid = false;
+        }
+  
+        if (!isValid) return;
+  
+        // Limpiar los campos del formulario
+        document.getElementById("nombre").value = "";
+        document.getElementById("correo").value = "";
+        document.getElementById("asunto").value = "";
+        document.getElementById("mensaje").value = "";
+  
+        // Mostrar mensaje de éxito
+        mensajeEnviado.classList.remove("hidden");
+  
+        // Ocultar mensaje después de 3 segundos
+        setTimeout(() => {
+          mensajeEnviado.classList.add("hidden");
+        }, 3000);
+      });
+    });
+  </script>
+</head>
+<body class="min-h-screen bg-white">
+  <!-- Menú -->
+  <nav class="bg-[#865E53] text-white p-2 sm:p-4 flex justify-between items-center fixed bottom-0 w-full sm:static sm:flex sm:justify-between">
+    <div class="flex items-center space-x-4">
+      <a href="index.html">
+        <img src="assets/logo_white_no_background.png" alt="Logo" class="h-8 lg:h-12" />
+      </a>
+      <h1 class="text-sm sm:text-base md:text-lg font-bold hidden md:block">VIDA CON PATITAS</h1>
+    </div>
+    <ul class="flex justify-around w-full sm:w-auto sm:space-x-12">
+      <li class="flex items-center">
+        <span class="material-symbols-outlined mr-2 lg:mr-4">pets</span>
+        <a class="text-sm lg:text-lg" href="animal-list.html">Animales</a>
+      </li>
+      <li class="flex items-center">
+        <span class="material-symbols-outlined mr-2 lg:mr-4">person</span>
+        <a class="text-sm lg:text-lg" href="login.html">Iniciar sesión</a>
+      </li>
+      <li class="flex items-center">
+        <span class="material-symbols-outlined mr-2 lg:mr-4">speaker_notes</span>
+        <a class="text-sm lg:text-lg" href="#">Contacto</a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Contenido -->
+  <div class="text-black grid grid-cols-1 lg:grid-cols-2 pb-10 sm:pb-0">
+    <!-- Formulario -->
+    <section class="mt-10 mb-10 ml-10 lg:ml-40 mr-10 lg:mr-20">
+      <h2 class="text-sm lg:text-lg mb-10 text-center">¡Rellena nuestro formulario de contacto!</h2>
+
+      <!-- Mensaje de formulario enviado -->
+      <div id="mensaje-enviado" class="hidden fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-green-600 text-white px-6 rounded-lg text-lg font-semibold min-h-30 flex items-center">
+        Mensaje enviado correctamente
+      </div>
+
+      <form id="contact-form" class="bg-[#dbcfcb] min-h-100 lg:min-h-170 rounded-lg grid grid-rows-11 p-4 lg:p-10">
+        <div class="row-span-2 pt-2">
+          <label for="nombre" class="font-bold">Nombre</label>
+          <input id="nombre" name="nombre" type="text" placeholder="Tu nombre" class="bg-white w-full mt-2 p-3 rounded-lg focus:outline-none focus:ring-1 focus:ring-black" />
+          <span id="error-nombre" class="error-message text-red-600 text-sm"></span>
+        </div>
+        <div class="row-span-2 pt-2">
+          <label for="correo" class="font-bold">Correo electrónico</label>
+          <input id="correo" name="correo" type="text" placeholder="Tu correo electrónico" class="bg-white w-full mt-2 p-3 rounded-lg focus:outline-none focus:ring-1 focus:ring-black" />
+          <span id="error-correo" class="error-message text-red-600 text-sm"></span>
+        </div>
+        <div class="row-span-2 pt-2">
+          <label for="asunto" class="font-bold">Asunto</label>
+          <input id="asunto" name="asunto" type="text" placeholder="Asunto del mensaje" class="bg-white w-full mt-2 p-3 rounded-lg focus:outline-none focus:ring-1 focus:ring-black" />
+          <span id="error-asunto" class="error-message text-red-600 text-sm"></span>
+        </div>
+        <div class="row-span-4 pt-2">
+          <label for="mensaje" class="block font-bold">Mensaje</label>
+          <textarea id="mensaje" name="mensaje" placeholder="Escribe aquí tu mensaje" rows="6" class="bg-white w-full mt-2 rounded-lg p-3"></textarea>
+          <span id="error-mensaje" class="error-message text-red-600 text-sm"></span>
+        </div>
+        <div class="pt-4">
+          <button type="submit" class="bg-[#865E53] text-white w-full h-full rounded-lg hover:opacity-90">Enviar mensaje</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Tarjetas de contacto -->
+    <div class="mt-10 mb-10 ml-10 lg:ml-20 mr-10 lg:mr-40">
+      <section>
+        <h2 class="text-sm lg:text-lg mb-10 text-center">¡O contacta con nosotros mediante vía telefónica!</h2>
+        <div class="bg-[#dbcfcb] min-h-70 rounded grid grid-rows-3 grid-cols-4 items-center mt-2">
+          <div class="col-span-1 flex items-center justify-center">
+            <div class="w-10 h-10 lg:w-12 lg:h-12 bg-[#865E53] rounded-full flex items-center justify-center">
+              <span class="material-symbols-outlined text-white">phone_in_talk</span>
+            </div>
+          </div>
+          <p class="text-sm lg:text-lg col-span-3">948 55 04 12</p>
+
+          <div class="col-span-1 flex items-center justify-center mt-2">
+            <div class="w-10 h-10 lg:w-12 lg:h-12 bg-[#865E53] rounded-full flex items-center justify-center">
+              <span class="material-symbols-outlined text-white">location_on</span>
+            </div>
+          </div>
+          <p class="text-sm lg:text-lg col-span-3">C. Verdadera, 31200 Estella, Navarra</p>
+
+          <div class="col-span-1 flex items-center justify-center my-2">
+            <div class="w-10 h-10 lg:w-12 lg:h-12 bg-[#865E53] rounded-full flex items-center justify-center">
+              <span class="material-symbols-outlined text-white">mail</span>
+            </div>
+          </div>
+          <p class="text-sm lg:text-lg col-span-3">dmontoyoyo@educacion.navarra.es</p>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-sm lg:text-lg mt-10 mb-10 text-center">¡Siguenos en las redes sociales para mantenerte al día de todas nuestras noticias!</h2>
+        <div class="bg-[#dbcfcb] min-h-70 rounded grid grid-rows-3 grid-cols-4 items-center my-2">
+          <div class="col-span-1 flex items-center justify-center">
+            <div class="w-10 h-10 lg:w-12 lg:h-12 bg-[#865E53] rounded-full flex items-center justify-center">
+              <img src="assets/instagram_icon.png" alt="Icono instagram" class="h-6  flex-shrink-0" />
+            </div>
+          </div>
+          <p class="col-span-3">@vida_con_patitas</p>
+
+          <div class="col-span-1 flex items-center justify-center my-2">
+            <div class="w-10 h-10 lg:w-12 lg:h-12 bg-[#865E53] rounded-full flex items-center justify-center">
+              <img src="assets/facebook.png" alt="Icono facebook" class="h-6 w-auto flex-shrink-0" />
+            </div>
+          </div>
+          <p class="col-span-3">vida_con_patitas</p>
+
+          <div class="col-span-1 flex items-center justify-center mb-2">
+            <div class="w-10 h-10 lg:w-12 lg:h-12 bg-[#865E53] rounded-full flex items-center justify-center">
+              <img src="assets/twitter.png" alt="Icono twitter" class="h-6 w-auto flex-shrink-0" />
+            </div>
+          </div>
+          <p class="col-span-3">vida_con_patitas</p>
+        </div>
+      </section>
+    </div>
+  </div>
+</body>
+</html>
