@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lista de Animales</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="./data/animals.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const animalesContainer = document.getElementById("animales-container");
+      const tipoAnimalSelect = document.getElementById("tipoAnimal");
+      const shelterSelect = document.getElementById("shelter");
+      const sizeSelect = document.getElementById("size");
+      const applyFiltersButton = document.getElementById("apply-filters");
+  
+      const renderAnimales = (filteredAnimals) => {
+        animalesContainer.innerHTML = "";
+        if (filteredAnimals.length === 0) {
+          animalesContainer.innerHTML = `<p class="text-center col-span-full text-lg">No hay animales con estas características. Sigue buscando a tu amigo ideal</p>`;
+          return;
+        }
+        filteredAnimals.forEach((animal) => {
+          const edad = calculateAge(animal.birthdayDate);
+          animalesContainer.innerHTML += `
+          <a href="animal-detail.html?id=${animal.id}" class="block">
+            <div class="bg-[#E0DDDD] text-white lg:min-h-100 rounded hover:scale-110 max-w-sm mx-auto">
+          <picture>
+            <source srcset="assets/animals/${animal.id}_mobile.png" media="(max-width: 768px)">
+            <source srcset="assets/animals/${animal.id}_desktop.png" media="(min-width: 769px)">
+            <img src="assets/animals/${animal.id}.png" alt="${animal.name}" class="w-full h-60 object-cover rounded-t-lg" />
+          </picture>              <div class="p-4">
+                <h1 class="md:text-2xl font-bold mb-2 text-black">${animal.name}</h1>
+                <p class="text-black mb-4">${animal.race} - ${edad}</p>
+                <p class="text-black mb-4">Refugio: ${animal.shelter}</p>
+                <p class="text-black mb-4">Carácter: ${animal.character}</p>
+                <div class="flex space-x-4 mt-4">
+                  <span class="material-symbols-outlined text-[#865E53] cursor-pointer hover:text-red-500">favorite</span>
+                  <span class="material-symbols-outlined text-[#865E53] cursor-pointer hover:text-black">share</span>
+                </div>
+              </div>
+            </div>
+          </a>
+          `;
+        });
+      };
+  
+      const calculateAge = (birthdate) => {
+        const birthDateObj = new Date(birthdate);
+        const currentDate = new Date();
+
+        let years = currentDate.getFullYear() - birthDateObj.getFullYear();
+        let months = currentDate.getMonth() - birthDateObj.getMonth();
+
+        if (months < 0) {
+          years -= 1;
+          months += 12;
+        }
+
+        return `${years > 0 ? `${years} año${years !== 1 ? "s" : ""} y ` : ""}${months} mes${months !== 1 ? "es" : ""}`;
+      };
+  
+      const applyFilters = () => {
+        const tipoAnimal = tipoAnimalSelect.value;
+        const shelter = shelterSelect.value;
+        const size = sizeSelect.value;
+  
+        const filteredAnimals = animals.filter((animal) => {
+          return (
+            (tipoAnimal === "" || animal.animal === tipoAnimal) &&
+            (shelter === "" || animal.shelter === shelter) &&
+            (size === "" || animal.size === size)
+          );
+        });
+  
+        renderAnimales(filteredAnimals);
+      };
+  
+      // Event listener for the "Aplicar filtros" button
+      applyFiltersButton.addEventListener("click", applyFilters);
+  
+      // Render all animals on page load
+      renderAnimales(animals);
+    });
+  </script>
+</head>
+<body class="min-h-screen bg-white text-black flex flex-col">
+  <!-- Menú -->
+  <nav class="bg-[#865E53] text-white p-2 sm:p-4 flex justify-between items-center fixed bottom-0 w-full sm:static sm:flex sm:justify-between z-10">
+    <div class="flex items-center space-x-4">
+      <a href="index.html">
+        <img src="assets/logo_white_no_background.png" alt="Logo" class="h-8 lg:h-12" />
+      </a>
+      <h1 class="text-lg font-bold hidden md:block">VIDA CON PATITAS</h1>
+    </div>
+    <ul class="flex justify-around w-full sm:w-auto sm:space-x-12">
+      <li>
+        <a href="#" class="text-lg flex items-center">
+          <span class="material-symbols-outlined mr-2">pets</span>
+          Animales
+        </a>
+      </li>
+      <li>
+        <a href="login.html" class="text-lg flex items-center">
+          <span class="material-symbols-outlined mr-2">person</span>
+          Iniciar sesión
+        </a>
+      </li>
+      <li>
+        <a href="contact.html" class="text-lg flex items-center">
+          <span class="material-symbols-outlined mr-2">speaker_notes</span>
+          Contacto
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+    <!-- Filtro móvil -->
+    <div class="p-4 bg-[#E0DDDD] flex justify-start sm:hidden">
+      <span id="filter-icon" class="material-symbols-outlined text-[#865E53] text-3xl cursor-pointer">tune</span>
+    </div>
+  <!-- Contenido -->
+  <div class="flex flex-grow">
+    <!-- Menú lateral -->
+    <form id="filter-menu" class="w-full md:w-1/5 p-8 bg-[#E0DDDD] hidden sm:block">
+      <div class="mt-10">
+        <label>Tipo de animal</label>
+        <select id="tipoAnimal" class="w-full mt-2 p-2 border rounded-lg bg-[#FFFFFF]">
+          <option value="">Seleccionar</option>
+          <option value="perro">Perro</option>
+          <option value="gato">Gato</option>
+          <option value="roedor">Roedor</option>
+          <option value="pajaro">Pájaro</option>
+        </select>
+      </div>
+      <div class="mt-6">
+        <label>Refugio</label>
+        <select id="shelter" class="w-full mt-2 p-2 border rounded-lg bg-[#FFFFFF]">
+          <option value="">Seleccionar</option>
+          <option value="Protectora de animales de Navarra">Fundación Protectora de Animales</option>
+          <option value="Huellitas">Ega Peludos</option>
+          <option value="Protectora de animales Ribera">Protectora Animales Etxauri</option>
+        </select>
+      </div>
+      <div class="mt-6">
+        <label>Tamaño</label>
+        <select id="size" class="w-full mt-2 p-2 border rounded-lg bg-[#FFFFFF]">
+          <option value="">Seleccionar</option>
+          <option value="grande">Grande</option>
+          <option value="mediano">Mediano</option>
+          <option value="pequeno">Pequeño</option>
+        </select>
+      </div>
+      <button id="apply-filters" type="button" class="bg-[#865E53] text-white mt-10 p-2 border rounded-xl w-full hover:opacity-90">
+        Aplicar filtros
+      </button>
+    </form>
+
+    <!-- Lista de animales -->
+    <div id="animales-container" class="w-3/4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-14 m-8 pb-10 sm:pb-0">
+      <script>
+        document.getElementById("filter-icon").addEventListener("click", () => {
+          const filterMenu = document.getElementById("filter-menu");
+          filterMenu.classList.toggle("hidden");
+        });
+      </script>
+    </body>
+</html>
