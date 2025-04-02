@@ -43,7 +43,7 @@
         animalContainer.innerHTML = `
           <div class="flex items-center space-x-2 text-gray-600 hover:text-gray-800 cursor-pointer">
             <a href="animal-list.html" class="flex items-center h-full space-x-3 text-gray-700 hover:text-gray-900 cursor-pointer text-lg">
-              <img src="assets/left_arrow.png" alt="Ir a la página anterior" class="h-full w-auto max-h-8 flex-shrink-0" />
+              <img src="assets/animal-detail/left_arrow.png" alt="Ir a la página anterior" class="h-full w-auto max-h-8 flex-shrink-0" />
               <span class="text-[#72544B] h-full flex items-center">Volver a la lista</span>
             </a>
           </div>
@@ -61,11 +61,11 @@
                   <span>${animal.race}</span>
                 </div>
                 <div class="flex items-center gap-2 my-4">
-                  <img src="assets/calendar.png" alt="Calendario" class="h-full w-auto max-h-6 flex-shrink-0" />
+                  <img src="assets/animal-detail/calendar.png" alt="Calendario" class="h-full w-auto max-h-6 flex-shrink-0" />
                   <span>${calculateAge(animal.birthdayDate)}</span>
                 </div>
                 <div class="flex items-center gap-2">
-                  <img src="assets/location_icon.png" alt="Ubicacion" class="h-full w-auto max-h-6 flex-shrink-0" />
+                  <img src="assets/animal-detail/location_icon.png" alt="Ubicacion" class="h-full w-auto max-h-6 flex-shrink-0" />
                   <span>${animal.shelter}</span>
                 </div>
               </div>
@@ -76,7 +76,7 @@
                   <ul class="list-none text-gray-600">
                     ${Object.values(animal.like).map((item) => `
                       <li class="flex items-center my-3 space-x-2">
-                        <img src="assets/like_icon.png" alt="Icono" class="h-6 w-auto flex-shrink-0" />
+                        <img src="assets/animal-detail/like_icon.png" alt="Icono" class="h-6 w-auto flex-shrink-0" />
                         <span>${item}</span>
                       </li>
                     `).join("")}
@@ -87,7 +87,7 @@
                   <ul class="list-none text-gray-600">
                     ${Object.values(animal.notLike).map((item) => `
                       <li class="flex items-center my-3 space-x-2">
-                        <img src="assets/dislike_icon.png" alt="Icono" class="h-6 w-auto flex-shrink-0" />
+                        <img src="assets/animal-detail/dislike_icon.png" alt="Icono" class="h-6 w-auto flex-shrink-0" />
                         <span>${item}</span>
                       </li>
                     `).join("")}
@@ -111,7 +111,7 @@
   <nav class="bg-[#865E53] text-white p-4 flex justify-between items-center fixed bottom-0 w-full sm:static sm:flex sm:justify-between">
     <div class="flex items-center space-x-4">
       <a href="index.html">
-        <img src="assets/logo_white_no_background.png" alt="Logo" class="h-8 lg:h-12" />
+        <img src="assets/common/logo_white_no_background.png" alt="Logo" class="h-8 lg:h-12" />
       </a>
       <h1 class="text-lg font-bold hidden md:block">VIDA CON PATITAS</h1>
     </div>
